@@ -1,6 +1,8 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Way {
+    private List<List<Integer>> map;
     private int startX;
     private int startY;
     private int finishX;
@@ -16,35 +18,8 @@ public class Way {
         finishY = scanner.nextInt();
     }
 
-    public int getStartY() {
-        return startY;
+    public void countDistance(List<List<Integer>> map){
+        //TODO
     }
 
-    public void setStartY(int startY) {
-        this.startY = startY;
-    }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    public void setStartX(int startX) {
-        this.startX = startX;
-    }
-
-    public int getFinishY() {
-        return finishY;
-    }
-
-    public void setFinishY(int finishY) {
-        this.finishY = finishY;
-    }
-
-    public int getFinishX() {
-        return finishX;
-    }
-
-    public void setFinishX(int finishX) {
-        this.finishX = finishX;
-    }
 }

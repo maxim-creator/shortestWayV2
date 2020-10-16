@@ -8,6 +8,8 @@ public class MainClass {
         int y = scanner.nextInt();
         Field field = new Field(x,y);
         field.addHomes();
+        Way way = new Way(scanner);
+        way.countDistance(field.getMap());
 
 
     }

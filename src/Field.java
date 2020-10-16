@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class Field {
-    Set <Home> homes = new LinkedHashSet<>();
-    List<List<Integer>> map = new ArrayList<>();
+    private Set <Home> homes = new LinkedHashSet<>();
+    private List<List<Integer>> map = new ArrayList<>();
 
     public Field(int sizeX, int sizeY) {
         for (int i = 0; i < sizeY; i++) {
@@ -12,6 +12,10 @@ public class Field {
             }
             map.add(temp);
         }
+    }
+
+    public List<List<Integer>> getMap() {
+        return map;
     }
 
     public void addHomes(){
