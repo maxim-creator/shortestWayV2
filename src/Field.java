@@ -4,6 +4,7 @@ public class Field {
     private Set <Home> homes = new LinkedHashSet<>();
     private List<List<Integer>> map = new ArrayList<>();
 
+
     public Field(int sizeX, int sizeY) {
         for (int i = 0; i < sizeY; i++) {
             List<Integer> temp = new ArrayList<>();
@@ -13,6 +14,7 @@ public class Field {
             map.add(temp);
         }
     }
+
 
     public List<List<Integer>> getMap() {
         return map;
