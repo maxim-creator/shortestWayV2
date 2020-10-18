@@ -24,6 +24,7 @@ public class Way {
     public void countDistance(){
         nodes = searchNodes();
         //TODO
+        
     }
 
     private List<Block> searchNodes(){
