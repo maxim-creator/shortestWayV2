@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Way {
     private List<List<Integer>> map;
-    List<Block> nodes;
+    private List<Block> nodes;
     private int startX;
     private int startY;
     private int finishX;
@@ -24,7 +24,6 @@ public class Way {
     public void countDistance(){
         nodes = searchNodes();
         //TODO
-        
     }
 
     private List<Block> searchNodes(){
