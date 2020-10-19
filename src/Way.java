@@ -32,13 +32,12 @@ public class Way {
         nodes.add(block);
         Block block1 = new Block(finishX, finishY);
         nodes.add(block1);
-        for (var i :
-                map) {
-            for (int j = 0; j < i.size(); j++) {
-               if (i.get(j) == 1){
-                   Block block2 = searchNode(map.indexOf(i),j);
+        for (int i = 0; i < map.size(); i++) {
+            for (int j = 0; j < map.get(i).size(); j++) {
+               if (map.get(i).get(j) == 1){
+                   Block block2 = searchNode(i, j);
                    if(block2 != null)
-                       nodes.add(searchNode(map.indexOf(i), j));
+                       nodes.add(searchNode(i, j));
                }
             }
         }
