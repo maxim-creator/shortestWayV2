@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 
 public class TestWay {
@@ -37,15 +38,26 @@ public class TestWay {
         Way way = new Way(map);
         Node node = new Node(4,6);
         Node node1 = way.searchNode(5,5);
-        assertEquals(node.getX(), node1.getX());
-        assertEquals(node.getY(), node1.getY());
+        assertEquals(node, node1);
 
         way = new Way(map);
         node = new Node(8,6);
         node1 = way.searchNode(7,5);
-        assertEquals(node.getX(), node1.getX());
-        assertEquals(node.getY(), node1.getY());
+        assertEquals(node, node1);
+
     }
 
+    @Test
+    public void testIsHouseBetweenNodes(){
+        Way way = new Way(map);
+        Node node = new Node(4,6);
+        Node node1 = new Node(8,2);
+        assertTrue(way.isHouseBetweenNodes(node, node1));
+        node = new Node(1,1);
+        node1 = new Node(8,1);
+        assertFalse(way.isHouseBetweenNodes(node, node1));
+
+        
+    }
 
 }
