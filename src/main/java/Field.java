@@ -6,9 +6,9 @@ public class Field {
 
 
     public Field(int sizeX, int sizeY) {
-        for (int i = 0; i < sizeY; i++) {
+        for (int i = 0; i < sizeX; i++) {
             List<Integer> temp = new ArrayList<>();
-            for (int j = 0; j < sizeX; j++) {
+            for (int j = 0; j < sizeY; j++) {
                 temp.add(0);
             }
             map.add(temp);
@@ -56,5 +56,6 @@ public class Field {
             map.set(line, temp);
         }
     }
+
 
 }

@@ -12,7 +12,6 @@ public class Node {
         this.y = y;
     }
 
-
     public Map<Node, Integer> getEdges() {
         return edges;
     }
@@ -39,12 +38,11 @@ public class Node {
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
         return x == node.x &&
-                y == node.y &&
-                Objects.equals(edges, node.edges);
+                y == node.y;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, edges);
+        return Objects.hash(x, y);
     }
 }
