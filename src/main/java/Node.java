@@ -2,17 +2,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Node {
+public class Node{
     private int x;
     private int y;
-    private Map edges = new LinkedHashMap();
+    private Map<Node, Double> edges = new LinkedHashMap();
 
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Map<Node, Integer> getEdges() {
+    public Map<Node, Double> getEdges() {
         return edges;
     }
 
@@ -45,4 +45,8 @@ public class Node {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+
+
+
 }

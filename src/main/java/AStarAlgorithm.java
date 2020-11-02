@@ -2,10 +2,9 @@ import java.util.*;
 
 public class AStarAlgorithm {
     Way way = new Way();
-    private List<NodeForAStarAlgorithm> nodes = new ArrayList();
-
+    private List<NodeForAStarAlgorithm> nodes = new ArrayList<>();
     private Set<NodeForAStarAlgorithm> closed = new LinkedHashSet();
-    private Set<NodeForAStarAlgorithm> opened = new LinkedHashSet();
+    private List<NodeForAStarAlgorithm> opened = new ArrayList<>();
     private Set<NodeForAStarAlgorithm> passed = new LinkedHashSet();
 
     public AStarAlgorithm(List<Node> nodes) {
@@ -15,60 +14,53 @@ public class AStarAlgorithm {
             nodeForAStarAlgorithm.setEdges(node.getEdges());
             this.nodes.add(nodeForAStarAlgorithm);
         }
-
-
+        
     }
 
+    public double countDistance(){
+        nodes.get(0).setDistanceFromStart(0);
+        nodes.get(0).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(0), nodes.get(1)));
+        nodes.get(0).countDistanceSum();
+        opened.add(nodes.get(0));
 
-    public double countDistance(Node start, Node finish) {
 
-        NodeForAStarAlgorithm startNode = new NodeForAStarAlgorithm(start.getX(), start.getY());
-        startNode.setEdges(startNode.getEdges());
+        NodeForAStarAlgorithm currentNode = nodes.get(0);
+        while (!opened.isEmpty()){
+           NodeForAStarAlgorithm bestDist = opened.stream().
+                   min(Comparator.comparing(NodeForAStarAlgorithm::getDistanceSum)).
+                   orElseThrow(NoSuchElementException::new);
 
-        startNode.setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(start, finish));
-        startNode.setDistanceFromStart(0);
-        startNode.countDistanceSum();
-        startNode.setEdges(nodes.get(0).getEdges());
-        opened.add(startNode);
+           if(bestDist.equals(nodes.get(1)))
+               return bestDist.getDistanceFromStart();
+           opened.remove(bestDist);
+           closed.add(bestDist);
 
-        NodeForAStarAlgorithm currentNode = startNode;
-        while (!opened.isEmpty()) {
-            NodeForAStarAlgorithm nextNode = searchNextNode(currentNode);
-            if (nodes.get(1).equals(nextNode))
-                return nextNode.getDistanceFromStart();
-            nextNode.setEdges(searchEdges(nextNode));
-            opened.remove(nextNode);
-            closed.add(nextNode);
+           currentNode = setCurrentNode(bestDist);
+            Boolean bestNeighbor;
+           for(Map.Entry<Node, Double> neighbor : currentNode.getEdges().entrySet()){
+               if(closed.contains(neighbor))
+                   continue;
 
-            for (Node neighbor :
-                    nextNode.getEdges().keySet()) {
-                boolean tentativeIsBetter;
-                NodeForAStarAlgorithm node = (NodeForAStarAlgorithm) neighbor;
-                if (closed.contains(node))
-                    continue;
-                double distanceFromStart = nextNode.getDistanceFromStart()
-                        + way.countDistanceBetweenNodes(nextNode, neighbor);
-                if (!opened.contains(node)) {
-                    opened.add(node);
-                    tentativeIsBetter = true;
-                } else {
-                    if (node.getDistanceFromStart() + way.countDistanceBetweenNodes(node, nextNode) < node.getDistanceFromStart())
-                        tentativeIsBetter = true;
-                    else
-                        tentativeIsBetter = false;
-                }
+               double gDistance = currentNode.getDistanceFromStart() + neighbor.getValue();
+               int neighborPos = searchNode(neighbor.getKey());
+               if(!opened.contains(neighbor)) {
+                   NodeForAStarAlgorithm nodeForAStarAlgorithm =
+                           new NodeForAStarAlgorithm(neighbor.getKey().getX(), neighbor.getKey().getY());
+                   opened.add(nodeForAStarAlgorithm);
+                   bestNeighbor = true;
+               }
+               else if(gDistance < nodes.get(neighborPos).getDistanceFromStart())
+                   bestNeighbor = true;
+               else
+                   bestNeighbor = false;
 
-                if (tentativeIsBetter = true) {
-                    node.setDistanceFromStart(nextNode.getDistanceFromStart() + way.countDistanceBetweenNodes(node, nextNode));
-                    node.setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(node, finish));
-                    node.countDistanceSum();
-                    for (int i = 0; i < nodes.size(); i++) {
-                        if (nodes.get(i).equals(node))
-                            nodes.set(i, node);
-                    }
-                }
 
-            }
+               if(bestNeighbor){
+                   nodes.get(neighborPos).setDistanceFromStart(gDistance);
+                   nodes.get(neighborPos).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(neighborPos), nodes.get(1)));
+                   nodes.get(neighborPos).countDistanceSum();
+               }
+           }
 
 
         }
@@ -76,35 +68,27 @@ public class AStarAlgorithm {
         return 0;
     }
 
-
-    private NodeForAStarAlgorithm searchNextNode(NodeForAStarAlgorithm node) {
-        NodeForAStarAlgorithm nextNode = null;
-        double minDist = 999999999;
-        List<Node> edges =  new ArrayList<>(node.getEdges().keySet());
-        List<Integer> distance = new ArrayList<>(node.getEdges().values());
-        for (int i = 0; i < edges.size(); i++) {
-            double dist = way.countDistanceBetweenNodes(edges.get(i).getX(), edges.get(i).getY(),
-                    node.getX(), node.getY());
-            dist += way.countDistanceBetweenNodes(edges.get(i).getX(), edges.get(i).getY(),
-                    nodes.get(1).getX(), nodes.get(i).getY());
-            if (dist < minDist) {
-                minDist = dist;
-                nextNode = new NodeForAStarAlgorithm(edges.get(i).getX(), edges.get(i).getY());
-            }
-
+    private int searchNode(Node node){
+        for (int i = 0; i < nodes.size(); i++) {
+            if(nodes.get(i).equals(node))
+                return i;
         }
-        nextNode.setDistanceFromStart(node.getDistanceFromStart() + way.countDistanceBetweenNodes(node, nextNode));
-
-        return nextNode;
+        return 0;
     }
 
-    private Map searchEdges(NodeForAStarAlgorithm node) {
-        for (NodeForAStarAlgorithm i :
+    private NodeForAStarAlgorithm setCurrentNode(NodeForAStarAlgorithm node){
+        for (var i :
                 nodes) {
-            if (i.equals(node))
-                return node.getEdges();
+            if(node.equals(i))
+                return i;
         }
-        return null;
+
+        //if there
+        return node;
     }
+
+
+
+
 
 }

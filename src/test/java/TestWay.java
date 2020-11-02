@@ -7,10 +7,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
 public class TestWay {
-    static List map = new ArrayList();
-    static List nodes;
+    static List<List<Integer>> map = new ArrayList();
+    static List<Node> nodes = new ArrayList<>();
     int startX = 1;
     int startY = 1;
     int finishX = 9;
@@ -29,35 +28,46 @@ public class TestWay {
                 } else
                     temp.add(0);
             }
-                map.add(temp);
+            map.add(temp);
         }
     }
 
+    @BeforeAll
+    public static void generateNodes() {
+        nodes.add(new Node(1, 1));
+        nodes.add(new Node(9, 9));
+        nodes.add(new Node(4, 6));
+        nodes.add(new Node(4, 2));
+        nodes.add(new Node(8, 6));
+        nodes.add(new Node(8, 2));
+    }
+
+
     @Test
-    public void testSearchNode(){
+    public void testSearchNode() {
         Way way = new Way(map);
-        Node node = new Node(4,6);
-        Node node1 = way.searchNode(5,5);
+        Node node = new Node(4, 6);
+        Node node1 = way.searchNode(5, 5);
         assertEquals(node, node1);
 
         way = new Way(map);
-        node = new Node(8,6);
-        node1 = way.searchNode(7,5);
+        node = new Node(8, 6);
+        node1 = way.searchNode(7, 5);
         assertEquals(node, node1);
 
     }
 
     @Test
-    public void testIsHouseBetweenNodes(){
+    public void testIsHouseBetweenNodes() {
         Way way = new Way(map);
-        Node node = new Node(4,6);
-        Node node1 = new Node(8,2);
+        Node node = new Node(4, 6);
+        Node node1 = new Node(8, 2);
         assertTrue(way.isHouseBetweenNodes(node, node1));
-        node = new Node(1,1);
-        node1 = new Node(8,1);
+        node = new Node(1, 1);
+        node1 = new Node(8, 1);
         assertFalse(way.isHouseBetweenNodes(node, node1));
 
-        
+
     }
 
 }

@@ -32,7 +32,7 @@ public class Way {
         nodes = searchNodes();
         searchEdges();
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(nodes);
-        double distance = aStarAlgorithm.countDistance(nodes.get(0), nodes.get(1));
+        double distance = aStarAlgorithm.countDistance();
         System.out.println(distance);
     }
 
@@ -193,7 +193,7 @@ public class Way {
         return Math.sqrt(a * a + b * b);
     }
 
-    private List<Node> searchNodes() {
+    public List<Node> searchNodes() {
         List<Node> nodes = new ArrayList();
         Node node = new Node(startX, startY);
         nodes.add(node);
