@@ -26,6 +26,10 @@ public class Way {
         System.out.println("enter finish position");
         finishX = scanner.nextInt();
         finishY = scanner.nextInt();
+        if(!isStartFinishRight()){
+            System.out.println("incorrect data");
+            enterStartFinish();
+        }
     }
 
     public void countDistance() {
@@ -33,7 +37,7 @@ public class Way {
         searchEdges();
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(nodes);
         double distance = aStarAlgorithm.countDistance();
-        System.out.println("Distace from start to finish: " + distance);
+        System.out.println("Distance from start to finish: " + distance);
     }
 
     private void searchEdges() {
@@ -325,5 +329,17 @@ public class Way {
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
+    }
+
+    private boolean isStartFinishRight(){
+        if(startX > map.size() || finishX > map.size() || startX < 0 || finishX < 0)
+            return false;
+        if(startY > map.get(0).size() || finishY > map.get(0).size() || startY < 0 || finishY < 0)
+            return false;
+        if(map.get(startX).get(startY) == 1)
+            return false;
+        if(map.get(finishX).get(finishY) == 1)
+            return false;
+        return true;
     }
 }

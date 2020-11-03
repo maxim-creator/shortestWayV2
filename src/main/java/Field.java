@@ -31,12 +31,18 @@ public class Field {
             home.addRing(scanner);
             System.out.println("enter lover right ring");
             home.addRing(scanner);
+            if(!isRingOutOfBounds(home)){
+                System.out.println("incorrect data");
+                i--;
+                continue;
+            }
             if(home.isEnteredRingsRight(home.getRings())) {
                 homes.add(home);
                 System.out.println("third and fourth rings will be counted automatically");
             } else {
                 System.out.println("incorrect data");
                 i--;
+                continue;
             }
         }
         for (var home : homes) {
@@ -57,5 +63,15 @@ public class Field {
         }
     }
 
+    private boolean isRingOutOfBounds(Home home){
+        for (var ring :
+                home.getRings()) {
+            if (ring.getX() > map.size())
+                return true;
+            if(ring.getY() > map.get(0).size())
+                return true;
+        }
+        return false;
+    }
 
 }
