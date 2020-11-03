@@ -14,7 +14,7 @@ public class AStarAlgorithm {
             nodeForAStarAlgorithm.setEdges(node.getEdges());
             this.nodes.add(nodeForAStarAlgorithm);
         }
-        
+
     }
 
     public double countDistance(){
@@ -42,11 +42,11 @@ public class AStarAlgorithm {
                    continue;
 
                double gDistance = currentNode.getDistanceFromStart() + neighbor.getValue();
-               int neighborPos = searchNode(neighbor.getKey());
+               int neighborPos = searchNodePosition(neighbor.getKey());
                if(!opened.contains(neighbor)) {
                    NodeForAStarAlgorithm nodeForAStarAlgorithm =
                            new NodeForAStarAlgorithm(neighbor.getKey().getX(), neighbor.getKey().getY());
-                   opened.add(nodeForAStarAlgorithm);
+                   opened.add(setCurrentNode(nodeForAStarAlgorithm));
                    bestNeighbor = true;
                }
                else if(gDistance < nodes.get(neighborPos).getDistanceFromStart())
@@ -57,7 +57,8 @@ public class AStarAlgorithm {
 
                if(bestNeighbor){
                    nodes.get(neighborPos).setDistanceFromStart(gDistance);
-                   nodes.get(neighborPos).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(neighborPos), nodes.get(1)));
+                   nodes.get(neighborPos).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(neighborPos),
+                           nodes.get(1)));
                    nodes.get(neighborPos).countDistanceSum();
                }
            }
@@ -69,6 +70,14 @@ public class AStarAlgorithm {
     }
 
     private int searchNode(Node node){
+        for (int i = 0; i < nodes.size(); i++) {
+            if(nodes.get(i).equals(node))
+                return i;
+        }
+        return 0;
+    }
+
+    private int searchNodePosition(Node node){
         for (int i = 0; i < nodes.size(); i++) {
             if(nodes.get(i).equals(node))
                 return i;

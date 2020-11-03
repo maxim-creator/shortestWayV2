@@ -123,6 +123,7 @@ public class Way {
         double xAdditional = 0;
         double yAdditional = 0;
 
+        //check starting with x direction
         while (xCurrent != two.getX() && yCurrent != two.getY()) {
             if (isHouseBetweenPoints(xCurrent, xCurrent + xStep, true, yCurrent))
                 return true;
@@ -150,6 +151,37 @@ public class Way {
             yAdditional += yReminder;
         }
 
+        //check starting with y direction
+        xCurrent = one.getX();
+        yCurrent = one.getY();
+        xAdditional = 0;
+        yAdditional = 0;
+        while (xCurrent != two.getX() && yCurrent != two.getY()) {
+            if (isHouseBetweenPoints(yCurrent, yCurrent + yStep, true, xCurrent))
+                return true;
+            yCurrent += yStep;
+            if (isHouseBetweenPoints(xCurrent, xCurrent + xStep, true, yCurrent))
+                return true;
+            xCurrent += xStep;
+
+            if (yAdditional >= 1) {
+                yCurrent += yAdditional;
+                yAdditional -= 1;
+            } else if (yAdditional <= -1) {
+                yCurrent += yAdditional;
+                yAdditional += 1;
+            }
+            if (xAdditional >= 1) {
+                xCurrent += xAdditional;
+                xAdditional -= 1;
+            } else if (xAdditional <= -1) {
+                xCurrent += xAdditional;
+                xAdditional += 1;
+            }
+
+            xAdditional += xReminder;
+            yAdditional += yReminder;
+        }
 
         return false;
     }

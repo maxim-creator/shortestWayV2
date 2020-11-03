@@ -31,7 +31,7 @@ public class NodeForAStarAlgorithm extends Node {
         this.heuristicDistanceToFinish = heuristicDistanceToFinish;
     }
 
-    public void countDistanceSum(){
+    public void countDistanceSum() {
         distanceSum = heuristicDistanceToFinish + distanceFromStart;
     }
 
