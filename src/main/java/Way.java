@@ -38,11 +38,12 @@ public class Way {
 
     private void searchEdges() {
         for (int i = 0; i < nodes.size(); i++) {
-            for (int j = i + 1; j < nodes.size(); j++) {
-                if (!isHouseBetweenNodes(nodes.get(i), nodes.get(j))) {
-                    nodes.get(i).addEdge(nodes.get(j), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
-                    nodes.get(j).addEdge(nodes.get(i), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
-                }
+            for (int j = 0; j < nodes.size(); j++) {
+                if (j != i)
+                    if (!isHouseBetweenNodes(nodes.get(i), nodes.get(j))) {
+                        nodes.get(i).addEdge(nodes.get(j), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
+                       //nodes.get(j).addEdge(nodes.get(i), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
+                    }
             }
         }
     }
@@ -61,11 +62,12 @@ public class Way {
         if (yDist == 0) {
             return isHouseBetweenPoints(one.getX(), two.getX(), true, one.getY());
         }
-        boolean xMoreThanY = Math.abs(xDist) >= Math.abs(yDist);
-        boolean yMoreThanX = Math.abs(xDist) <= Math.abs(yDist);
+        boolean xMoreThanY = Math.abs(xDist) > Math.abs(yDist);
+        boolean yMoreThanX = Math.abs(xDist) < Math.abs(yDist);
+        boolean xEqualsT = Math.abs(xDist) == Math.abs(yDist);
 
         if (xDist > 0 && yDist > 0) {
-            if (xDist >= yDist) {
+            if (xDist > yDist) {
                 yStep = 1;
                 xStep = xDist / yDist;
                 xReminder = xDist % yDist;
@@ -75,12 +77,12 @@ public class Way {
                 xStep = 1;
                 yReminder = yDist % xDist;
             }
-            if (xDist == yDist) {
+            if (xEqualsT) {
                 xStep = 1;
                 yStep = 1;
             }
         } else if (xDist < 0 && yDist < 0) {
-            if (xDist <= yDist) {
+            if (xDist < yDist) {
                 yStep = -1;
                 xStep = -xDist / yDist;
                 xReminder = -Math.abs(xDist % yDist);
@@ -90,7 +92,7 @@ public class Way {
                 xStep = -1;
                 yReminder = -Math.abs(yDist % xDist);
             }
-            if (xDist == yDist) {
+            if (xEqualsT) {
                 xStep = -1;
                 yStep = -1;
             }
@@ -105,6 +107,10 @@ public class Way {
                 xStep = 1;
                 yReminder = -Math.abs(yDist % xDist);
             }
+            if(xEqualsT){
+                xStep = 1;
+                yStep = -1;
+            }
         } else if (xDist < 0 && yDist > 0) {
             if (xMoreThanY) {
                 yStep = 1;
@@ -115,6 +121,10 @@ public class Way {
                 yStep = yDist / xDist;
                 xStep = -1;
                 yReminder = yDist % xDist;
+            }
+            if(xEqualsT){
+                xStep = -1;
+                yStep = 1;
             }
         }
 
@@ -128,7 +138,7 @@ public class Way {
             if (isHouseBetweenPoints(xCurrent, xCurrent + xStep, true, yCurrent))
                 return true;
             xCurrent += xStep;
-            if (isHouseBetweenPoints(yCurrent, yCurrent + yStep, true, xCurrent))
+            if (isHouseBetweenPoints(yCurrent, yCurrent + yStep, false, xCurrent))
                 return true;
             yCurrent += yStep;
 

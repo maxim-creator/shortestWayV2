@@ -63,7 +63,6 @@ public class AStarAlgorithm {
                }
            }
 
-
         }
 
         return 0;
@@ -92,7 +91,6 @@ public class AStarAlgorithm {
                 return i;
         }
 
-        //if there
         return node;
     }
 
