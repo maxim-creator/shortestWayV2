@@ -1,6 +1,6 @@
 public class NodeForAStarAlgorithm extends Node {
     private double heuristicDistanceToFinish;
-    private double distanceFromStart;
+    private double distanceFromStart = 0;
     private double distanceSum;
 
     public NodeForAStarAlgorithm(int x, int y) {

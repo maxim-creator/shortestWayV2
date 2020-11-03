@@ -29,7 +29,7 @@ public class AStarAlgorithm {
            NodeForAStarAlgorithm bestDist = opened.stream().
                    min(Comparator.comparing(NodeForAStarAlgorithm::getDistanceSum)).
                    orElseThrow(NoSuchElementException::new);
-
+          //bestDist.setDistanceFromStart(way.countDistanceBetweenNodes(currentNode, bestDist)+currentNode.getDistanceFromStart());
            if(bestDist.equals(nodes.get(1)))
                return bestDist.getDistanceFromStart();
            opened.remove(bestDist);
@@ -68,17 +68,12 @@ public class AStarAlgorithm {
         return 0;
     }
 
-    private int searchNode(Node node){
-        for (int i = 0; i < nodes.size(); i++) {
-            if(nodes.get(i).equals(node))
-                return i;
-        }
-        return 0;
-    }
+
 
     private int searchNodePosition(Node node){
         for (int i = 0; i < nodes.size(); i++) {
-            if(nodes.get(i).equals(node))
+            Node node1 = new Node(nodes.get(i).getX(), nodes.get(i).getY());
+            if(node1.equals(node))
                 return i;
         }
         return 0;

@@ -33,16 +33,16 @@ public class Way {
         searchEdges();
         AStarAlgorithm aStarAlgorithm = new AStarAlgorithm(nodes);
         double distance = aStarAlgorithm.countDistance();
-        System.out.println(distance);
+        System.out.println("Distace from start to finish: " + distance);
     }
 
     private void searchEdges() {
         for (int i = 0; i < nodes.size(); i++) {
-            for (int j = 0; j < nodes.size(); j++) {
+            for (int j = i + 1; j < nodes.size(); j++) {
                 if (j != i)
                     if (!isHouseBetweenNodes(nodes.get(i), nodes.get(j))) {
                         nodes.get(i).addEdge(nodes.get(j), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
-                       //nodes.get(j).addEdge(nodes.get(i), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
+                        nodes.get(j).addEdge(nodes.get(i), countDistanceBetweenNodes(nodes.get(i), nodes.get(j)));
                     }
             }
         }
@@ -107,7 +107,7 @@ public class Way {
                 xStep = 1;
                 yReminder = -Math.abs(yDist % xDist);
             }
-            if(xEqualsT){
+            if (xEqualsT) {
                 xStep = 1;
                 yStep = -1;
             }
@@ -122,7 +122,7 @@ public class Way {
                 xStep = -1;
                 yReminder = yDist % xDist;
             }
-            if(xEqualsT){
+            if (xEqualsT) {
                 xStep = -1;
                 yStep = 1;
             }
@@ -159,6 +159,16 @@ public class Way {
 
             xAdditional += xReminder;
             yAdditional += yReminder;
+
+            if (one.getX() < two.getX() && xCurrent > two.getX())
+                return false;
+            if (one.getX() > two.getX() && xCurrent < two.getX())
+                return false;
+            if (one.getY() < two.getY() && yCurrent > two.getY())
+                return false;
+            if (one.getY() > two.getY() && yCurrent < two.getY())
+                return false;
+
         }
 
         //check starting with y direction
@@ -167,7 +177,7 @@ public class Way {
         xAdditional = 0;
         yAdditional = 0;
         while (xCurrent != two.getX() && yCurrent != two.getY()) {
-            if (isHouseBetweenPoints(yCurrent, yCurrent + yStep, true, xCurrent))
+            if (isHouseBetweenPoints(yCurrent, yCurrent + yStep, false, xCurrent))
                 return true;
             yCurrent += yStep;
             if (isHouseBetweenPoints(xCurrent, xCurrent + xStep, true, yCurrent))
@@ -199,7 +209,7 @@ public class Way {
 
     private boolean isHouseBetweenPoints(int one, int two, boolean xDirection, int secondDirection) {
         while (one != two) {
-            if (xDirection = true) {
+            if (xDirection == true) {
                 if (map.get(one).get(secondDirection) == 1)
                     return true;
                 else {
