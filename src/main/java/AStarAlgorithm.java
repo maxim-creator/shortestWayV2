@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class AStarAlgorithm {
-    Way way = new Way();
     private List<NodeForAStarAlgorithm> nodes = new ArrayList<>();
     private Set<NodeForAStarAlgorithm> closed = new LinkedHashSet();
     private List<NodeForAStarAlgorithm> opened = new ArrayList<>();
@@ -19,7 +18,7 @@ public class AStarAlgorithm {
 
     public double countDistance(){
         nodes.get(0).setDistanceFromStart(0);
-        nodes.get(0).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(0), nodes.get(1)));
+        nodes.get(0).setHeuristicDistanceToFinish(Way.countDistanceBetweenNodes(nodes.get(0), nodes.get(1)));
         nodes.get(0).countDistanceSum();
         opened.add(nodes.get(0));
 
@@ -57,7 +56,7 @@ public class AStarAlgorithm {
 
                if(bestNeighbor){
                    nodes.get(neighborPos).setDistanceFromStart(gDistance);
-                   nodes.get(neighborPos).setHeuristicDistanceToFinish(way.countDistanceBetweenNodes(nodes.get(neighborPos),
+                   nodes.get(neighborPos).setHeuristicDistanceToFinish(Way.countDistanceBetweenNodes(nodes.get(neighborPos),
                            nodes.get(1)));
                    nodes.get(neighborPos).countDistanceSum();
                }

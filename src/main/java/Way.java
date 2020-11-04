@@ -236,7 +236,7 @@ public class Way {
         return false;
     }
 
-    public double countDistanceBetweenNodes(Node one, Node two) {
+    public static double countDistanceBetweenNodes(Node one, Node two) {
         int a = Math.abs(one.getX() - two.getX());
         int b = Math.abs(one.getY() - two.getY());
         return Math.sqrt(a * a + b * b);
